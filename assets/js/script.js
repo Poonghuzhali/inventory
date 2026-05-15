@@ -94,7 +94,12 @@ function renderFilters() {
     // Supplier
     const supSel = document.getElementById('supplier-filters');
     html = '<option value="">All Suppliers</option>';
-    suppliersList.forEach(s => { html += `<option value="${s}">${s}</option>`; });
+    const supData = localStorage.getItem('suppliersData');
+    const suppliers = supData ? JSON.parse(supData) : [];
+    (suppliers.length ? suppliers : suppliersList).forEach(s => {
+        const name = typeof s === 'string' ? s : s.name;
+        html += `<option value="${name}">${name}</option>`;
+    });
     supSel.innerHTML = html;
 
     // SKU
