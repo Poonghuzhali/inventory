@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Mobile Top Header -->
+    <header class="lg:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-50">
+        <h1 class="text-xl font-bold">Grocery<span class="text-emerald-400">Go</span></h1>
+        <button id="menu-toggle" class="p-2 bg-slate-800 rounded-md">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </header>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0">
+            <div class="flex flex-col h-full">
+                <div class="p-6 text-2xl font-bold border-b border-slate-800 hidden lg:block">
+                    Grocery<span class="text-emerald-400">Go</span>
+                </div>
+                <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                    <a href="index.html" class="flex items-center p-3 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Dashboard
+                    </a>
+                    <a href="inventory.html" class="flex items-center p-3 bg-emerald-600 rounded-lg text-white font-semibold">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        Inventory
+                    </a>
+                    <a href="expiry.html" class="flex items-center p-3 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Expiry Tracker
+                    </a>
+                    <a href="supplier.html" class="flex items-center p-3 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Suppliers
+                    </a>
+                </nav>
+                <div class="p-4 border-t border-slate-800">
+                    <div class="flex items-center p-2 bg-slate-800 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center font-bold">P</div>
+                        <div class="ml-3">
+                            <p class="text-xs font-semibold">Admin</p>
+                            <p class="text-[10px] text-slate-400">Manager View</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+            <div class="p-4 md:p-8 max-w-7xl w-full mx-auto">
+                <!-- Page Title -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-800">Inventory</h2>
+                    <p class="text-slate-500">Full inventory list categorized by product type.</p>
+                </div>
+
+                <!-- Search & Add -->
+                <div class="mb-6 flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <input id="search-input" type="text" placeholder="Search by name, SKU, or invoice..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 text-slate-700 text-sm rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    </div>
+                    <button id="download-btn" class="bg-white border border-gray-200 text-slate-600 px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition flex items-center gap-2 whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Download
+                    </button>
+                    <button id="add-product-btn" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition flex items-center gap-2 whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Add Product
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Category</label>
+                            <select id="category-filters" class="filter-select w-full bg-white border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">SKU</label>
+                            <select id="sku-filters" class="filter-select w-full bg-white border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Stock Level</label>
+                            <select id="stock-filters" class="filter-select w-full bg-white border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Invoice</label>
+                            <select id="invoice-filters" class="filter-select w-full bg-white border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Expiry</label>
+                            <select id="expiry-filters" class="filter-select w-full bg-white border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 text-slate-500 text-xs uppercase tracking-widest">
+                                <tr>
+                                    <th class="p-4">Product</th>
+                                    <th class="p-4">SKU</th>
+                                    <th class="p-4">Barcode</th>
+                                    <th class="p-4">Invoice</th>
+                                    <th class="p-4">Supplier</th>
+                                    <th class="p-4">Unit</th>
+                                    <th class="p-4">Price</th>
+                                    <th class="p-4">GST</th>
+                                    <th class="p-4">Stock</th>
+                                    <th class="p-4">Expiry</th>
+                                    <th class="p-4 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-data-body" class="divide-y divide-gray-100">
+                                <tr>
+                                    <td colspan="11" class="p-10 text-center text-gray-500">Loading inventory...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/40" id="modal-backdrop"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                    <h3 id="modal-title" class="text-lg font-bold text-slate-800">Add Product</h3>
+                    <button id="modal-close" class="p-1 hover:bg-gray-100 rounded-lg transition">
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <form id="product-form" class="p-6 space-y-4" novalidate>
+                    <input type="hidden" id="edit-index" value="">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Product Name *</label>
+                            <input id="form-name" type="text" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Name is required</p>
+                        </div>
+                        <input type="hidden" id="form-sku">
+                        <input type="hidden" id="form-barcode">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Invoice Number *</label>
+                            <input id="form-invoice" type="text" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Invoice number is required</p>
+                            <p id="invoice-format-error" class="form-error text-xs text-red-500 mt-1 hidden">Invoice must be in format INV-YYYY-NNN (e.g. INV-2026-001)</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Supplier *</label>
+                            <select id="form-supplier" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Select</option>
+                            </select>
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Supplier is required</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Category *</label>
+                            <select id="form-category" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"></select>
+                            <div id="new-category-wrap" class="mt-2 hidden">
+                                <input id="form-new-category" type="text" placeholder="Enter new category name..." class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            </div>
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Category is required</p>
+                            <p id="new-cat-error" class="form-error text-xs text-red-500 mt-1 hidden">New category name is required</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Unit Type *</label>
+                            <select id="form-unit" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Select</option>
+                                <option value="KG">KG</option>
+                                <option value="Litre">Litre</option>
+                                <option value="Pack">Pack</option>
+                                <option value="Grams">Grams</option>
+                                <option value="Pieces">Pieces</option>
+                            </select>
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Unit type is required</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Unit Count *</label>
+                            <input id="form-unit-count" type="number" min="1" step="1" value="1" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Unit count must be at least 1</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Price (₹) *</label>
+                            <input id="form-price" type="number" min="0" step="0.01" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Price must be a positive number</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">GST *</label>
+                            <select id="form-gst" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Select</option>
+                                <option value="0%">0%</option>
+                                <option value="5%">5%</option>
+                                <option value="12%">12%</option>
+                                <option value="18%">18%</option>
+                                <option value="28%">28%</option>
+                            </select>
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">GST is required</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">MFG Date *</label>
+                            <input id="form-mfg" type="date" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">MFG date is required</p>
+                            <p id="mfg-future-error" class="form-error text-xs text-red-500 mt-1 hidden">MFG date cannot be in the future</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Exp Date *</label>
+                            <input id="form-exp" type="date" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p id="exp-order-error" class="form-error text-xs text-red-500 mt-1 hidden">Exp date must be after MFG date</p>
+                            <p id="exp-future-error" class="form-error text-xs text-red-500 mt-1 hidden">Exp date must be at least 1 month from today</p>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">Stock *</label>
+                            <input id="form-stock" type="number" min="0" step="1" required class="w-full border border-gray-200 text-slate-700 text-sm rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <p class="form-error text-xs text-red-500 mt-1 hidden">Stock must be a non-negative number</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                        <button type="button" id="modal-cancel" class="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition">Cancel</button>
+                        <button type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+                <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Delete Product</h3>
+                <p class="text-sm text-slate-500 mb-6">Are you sure you want to delete <strong id="delete-product-name"></strong>?</p>
+                <div class="flex justify-center gap-3">
+                    <button id="delete-cancel" class="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition">Cancel</button>
+                    <button id="delete-confirm" class="px-5 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
