@@ -54,7 +54,7 @@ function renderExpiryTable() {
         html += `<tr class="hover:bg-gray-50 transition-colors ${rowClass}">
             <td class="p-4 font-medium text-slate-800">${item.name}</td>
             <td class="p-4 text-xs text-gray-500 font-mono">${item.sku}</td>
-            <td class="p-4 text-xs text-gray-500 font-mono">${item.barcode}</td>
+            <td class="p-4"><svg class="barcode" data-value="${item.barcode}"></svg></td>
             <td class="p-4 text-xs text-gray-500">${item.invoice}</td>
             <td class="p-4 text-xs text-gray-500">${item.category}</td>
             <td class="p-4 text-gray-600">${item.unit}</td>
@@ -65,6 +65,12 @@ function renderExpiryTable() {
         </tr>`;
     });
     tbody.innerHTML = html;
+
+    if (typeof JsBarcode !== 'undefined') {
+        tbody.querySelectorAll('.barcode').forEach(el => {
+            JsBarcode(el, el.dataset.value, { format: 'CODE128', width: 0.9, height: 24, displayValue: false, margin: 0 });
+        });
+    }
 }
 
 function downloadExpiryCSV() {
