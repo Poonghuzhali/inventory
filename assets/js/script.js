@@ -13,7 +13,7 @@ if (btn) {
 let inventoryData = null;
 let deleteTarget = null;
 
-const filters = { category: null, sku: null, stock: null, invoice: null, expiry: null };
+const filters = { category: null, supplier: null, sku: null, stock: null, invoice: null, expiry: null };
 let searchQuery = '';
 
 const skuPrefixMap = {
@@ -91,6 +91,12 @@ function renderFilters() {
     Object.keys(inventoryData.inventory).sort().forEach(c => { html += `<option value="${c}">${c}</option>`; });
     catSel.innerHTML = html;
 
+    // Supplier
+    const supSel = document.getElementById('supplier-filters');
+    html = '<option value="">All Suppliers</option>';
+    suppliersList.forEach(s => { html += `<option value="${s}">${s}</option>`; });
+    supSel.innerHTML = html;
+
     // SKU
     const skuSel = document.getElementById('sku-filters');
     html = '<option value="">All SKUs</option>';
@@ -137,6 +143,7 @@ function handleFilterChange(e) {
     const val = sel.value;
     switch (sel.id) {
         case 'category-filters': filters.category = val || null; break;
+        case 'supplier-filters': filters.supplier = val || null; break;
         case 'sku-filters': filters.sku = val || null; break;
         case 'stock-filters': filters.stock = val ? parseStockRange(val) : null; break;
         case 'invoice-filters': filters.invoice = val || null; break;
@@ -175,6 +182,10 @@ function getFilteredItems() {
     if (!inventoryData) return [];
     return flattenItems().filter(item => {
         if (filters.category && item.category !== filters.category) return false;
+        if (filters.supplier) {
+            const itemSupplier = item.supplier || categorySupplierMap[item.category] || '';
+            if (itemSupplier !== filters.supplier) return false;
+        }
         if (filters.sku && item.sku !== filters.sku) return false;
         if (filters.stock && (item.stock < filters.stock.min || item.stock > filters.stock.max)) return false;
         if (filters.invoice && item.invoice !== filters.invoice) return false;
