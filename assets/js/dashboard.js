@@ -85,7 +85,7 @@ function renderBarChart(data) {
     }
 
     items.sort((a, b) => b.stock - a.stock);
-    const top = items.slice(0, 15).reverse();
+    const top = items.slice(0, 15);
 
     new Chart(document.getElementById('productBarChart'), {
         type: 'bar',
@@ -101,11 +101,10 @@ function renderBarChart(data) {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            indexAxis: 'y',
             plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + ' units' } } },
             scales: {
-                x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-                y: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+                y: { grid: { display: false }, ticks: { font: { size: 10 } } }
             }
         }
     });
