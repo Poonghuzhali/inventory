@@ -1,0 +1,108 @@
+{
+  "suppliers": [
+    {
+      "name": "Fresh Farms Produce",
+      "contact": "Rajesh Kumar",
+      "phone": "9876543210",
+      "email": "rajesh@freshfarms.in",
+      "category": "Fruits & Vegetables",
+      "address": "12, MG Road, Bangalore - 560001",
+      "status": "Active"
+    },
+    {
+      "name": "Daily Dairy Ltd",
+      "contact": "Suresh Patel",
+      "phone": "9876543211",
+      "email": "suresh@dailydairy.in",
+      "category": "Dairy & Bakery",
+      "address": "45, Station Road, Mumbai - 400001",
+      "status": "Active"
+    },
+    {
+      "name": "GrainMaster Traders",
+      "contact": "Amit Singh",
+      "phone": "9876543212",
+      "email": "amit@grainmaster.in",
+      "category": "Staples & Grains",
+      "address": "78, Nehru Street, Delhi - 110001",
+      "status": "Active"
+    },
+    {
+      "name": "PureOil Industries",
+      "contact": "Vikram Reddy",
+      "phone": "9876543213",
+      "email": "vikram@pureoil.in",
+      "category": "Cooking Oils & Ghee",
+      "address": "33, Industrial Area, Hyderabad - 500001",
+      "status": "Active"
+    },
+    {
+      "name": "CrunchBite Snacks",
+      "contact": "Priya Sharma",
+      "phone": "9876543214",
+      "email": "priya@crunchbite.in",
+      "category": "Snacks & Biscuits",
+      "address": "56, Lake View Road, Pune - 411001",
+      "status": "Active"
+    },
+    {
+      "name": "BrewWell Beverages",
+      "contact": "Arun Nair",
+      "phone": "9876543215",
+      "email": "arun@brewwell.in",
+      "category": "Beverages",
+      "address": "21, East Street, Kochi - 682001",
+      "status": "Active"
+    },
+    {
+      "name": "SpiceKing Exports",
+      "contact": "Meena Devi",
+      "phone": "9876543216",
+      "email": "meena@spiceking.in",
+      "category": "Spices & Seasonings",
+      "address": "8, Market Lane, Jaipur - 302001",
+      "status": "Inactive"
+    },
+    {
+      "name": "CleanHome Supplies",
+      "contact": "Ravi Verma",
+      "phone": "9876543217",
+      "email": "ravi@cleanhome.in",
+      "category": "Cleaning Supplies",
+      "address": "92, West Avenue, Chennai - 600001",
+      "status": "Active"
+    },
+    {
+      "name": "GlowCare Personal",
+      "contact": "Neha Gupta",
+      "phone": "9876543218",
+      "email": "neha@glowcare.in",
+      "category": "Personal Care",
+      "address": "14, Park Street, Kolkata - 700001",
+      "status": "Active"
+    },
+    {
+      "name": "QuickFreeze Logistics",
+      "contact": "Deepak Joshi",
+      "phone": "9876543219",
+      "email": "deepak@quickfreeze.in",
+      "category": "Frozen Foods",
+      "address": "67, Ring Road, Ahmedabad - 380001",
+      "status": "Active"
+    }
+  ],
+  "categories": [
+    "Fruits & Vegetables",
+    "Dairy & Bakery",
+    "Staples & Grains",
+    "Cooking Oils & Ghee",
+    "Snacks & Biscuits",
+    "Beverages",
+    "Spices & Seasonings",
+    "Cleaning Supplies",
+    "Personal Care",
+    "Baby Care",
+    "Home & Kitchen",
+    "Frozen Foods"
+  ]
+}

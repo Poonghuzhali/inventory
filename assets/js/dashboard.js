@@ -15,7 +15,7 @@ async function loadDashboardData() {
     return data;
 }
 
-function renderStats(data) {
+async function renderStats(data) {
     let totalStock = 0;
     let totalValue = 0;
     let lowStockCount = 0;
@@ -32,7 +32,15 @@ function renderStats(data) {
     document.getElementById('total-value').textContent = '\u20b9' + totalValue.toLocaleString('en-IN');
     document.getElementById('low-stock').textContent = lowStockCount;
 
-    const supData = localStorage.getItem('suppliersData');
+    let supData = localStorage.getItem('suppliersData');
+    if (!supData) {
+        try {
+            const response = await fetch('assets/js/suppliers.json');
+            const json = await response.json();
+            localStorage.setItem('suppliersData', JSON.stringify(json.suppliers));
+            supData = localStorage.getItem('suppliersData');
+        } catch {}
+    }
     const suppliers = supData ? JSON.parse(supData) : [];
     document.getElementById('total-suppliers').textContent = suppliers.length;
 }
@@ -105,7 +113,7 @@ function renderBarChart(data) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const data = await loadDashboardData();
-    renderStats(data);
+    await renderStats(data);
     renderPieChart(data);
     renderBarChart(data);
 });

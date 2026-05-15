@@ -23,26 +23,30 @@ const skuPrefixMap = {
     'Baby Care': 'BC', 'Home & Kitchen': 'HK', 'Frozen Foods': 'FF'
 };
 
-const suppliersList = [
-    'Fresh Farms Produce', 'Daily Dairy Ltd', 'GrainMaster Traders', 'PureOil Industries',
-    'CrunchBite Snacks', 'BrewWell Beverages', 'SpiceKing Exports', 'CleanHome Supplies',
-    'GlowCare Personal', 'QuickFreeze Logistics'
-];
+let suppliersList = [];
+let categorySupplierMap = {};
 
-const categorySupplierMap = {
-    'Fruits & Vegetables': 'Fresh Farms Produce',
-    'Dairy & Bakery': 'Daily Dairy Ltd',
-    'Staples & Grains': 'GrainMaster Traders',
-    'Cooking Oils & Ghee': 'PureOil Industries',
-    'Snacks & Biscuits': 'CrunchBite Snacks',
-    'Beverages': 'BrewWell Beverages',
-    'Spices & Seasonings': 'SpiceKing Exports',
-    'Cleaning Supplies': 'CleanHome Supplies',
-    'Personal Care': 'GlowCare Personal',
-    'Baby Care': 'GlowCare Personal',
-    'Home & Kitchen': 'CleanHome Supplies',
-    'Frozen Foods': 'QuickFreeze Logistics'
-};
+async function loadSupplierDataForInventory() {
+    let suppliers;
+    const cached = localStorage.getItem('suppliersData');
+    if (cached) {
+        suppliers = JSON.parse(cached);
+    } else {
+        const response = await fetch('assets/js/suppliers.json');
+        const data = await response.json();
+        suppliers = data.suppliers;
+        localStorage.setItem('suppliersData', JSON.stringify(suppliers));
+    }
+
+    suppliersList = suppliers.map(s => s.name);
+
+    categorySupplierMap = {};
+    suppliers.forEach(s => {
+        categorySupplierMap[s.category] = s.name;
+    });
+    categorySupplierMap['Baby Care'] = 'GlowCare Personal';
+    categorySupplierMap['Home & Kitchen'] = 'CleanHome Supplies';
+}
 
 /** Data */
 async function loadData() {
@@ -592,6 +596,7 @@ function handleFormSubmit(e) {
 /** Init */
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
+    await loadSupplierDataForInventory();
 
     // Only run inventory-page logic if the table body exists
     if (!document.getElementById('inventory-data-body')) return;
