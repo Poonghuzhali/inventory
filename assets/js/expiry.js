@@ -1,5 +1,28 @@
 let expiryData = null;
 let expirySearchQuery = '';
+// categorySupplierMap is declared by script.js — do not redeclare
+
+async function loadCategorySupplierMap() {
+    const cached = localStorage.getItem('suppliersData');
+    if (cached) {
+        const suppliers = JSON.parse(cached);
+        buildMap(suppliers);
+    } else {
+        try {
+            const response = await fetch('assets/js/suppliers.json');
+            const data = await response.json();
+            localStorage.setItem('suppliersData', JSON.stringify(data.suppliers));
+            buildMap(data.suppliers);
+        } catch {}
+    }
+}
+
+function buildMap(suppliers) {
+    categorySupplierMap = {};
+    suppliers.forEach(s => { categorySupplierMap[s.category] = s.name; });
+    categorySupplierMap['Baby Care'] = 'GlowCare Personal';
+    categorySupplierMap['Home & Kitchen'] = 'CleanHome Supplies';
+}
 
 function flattenAllItems(data) {
     const arr = [];
@@ -21,7 +44,7 @@ function getExpiryStatus(expDate) {
 function renderExpiryTable() {
     const tbody = document.getElementById('expiry-data-body');
     if (!expiryData) {
-        tbody.innerHTML = '<tr><td colspan="10" class="p-10 text-center text-gray-500">Loading...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" class="p-10 text-center text-gray-500">Loading...</td></tr>';
         return;
     }
 
@@ -39,7 +62,7 @@ function renderExpiryTable() {
     items.sort((a, b) => new Date(a.exp_date + 'T00:00:00') - new Date(b.exp_date + 'T00:00:00'));
 
     if (!items.length) {
-        tbody.innerHTML = '<tr><td colspan="10" class="p-10 text-center text-gray-500">No items found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" class="p-10 text-center text-gray-500">No items found.</td></tr>';
         return;
     }
 
@@ -51,11 +74,14 @@ function renderExpiryTable() {
         const isExpired = exp < today;
         const rowClass = isExpired ? 'bg-red-50' : '';
 
+        const supplier = item.supplier || categorySupplierMap[item.category] || '—';
+
         html += `<tr class="hover:bg-gray-50 transition-colors ${rowClass}">
             <td class="p-4 font-medium text-slate-800">${item.name}</td>
             <td class="p-4 text-xs text-gray-500 font-mono">${item.sku}</td>
             <td class="p-4"><svg class="barcode" data-value="${item.barcode}"></svg></td>
             <td class="p-4 text-xs text-gray-500">${item.invoice}</td>
+            <td class="p-4 text-xs text-gray-500">${supplier}</td>
             <td class="p-4 text-xs text-gray-500">${item.category}</td>
             <td class="p-4 text-gray-600">${item.unit}</td>
             <td class="p-4 font-semibold">\u20b9${item.price}</td>
@@ -88,10 +114,11 @@ function downloadExpiryCSV() {
 
     items.sort((a, b) => new Date(a.exp_date + 'T00:00:00') - new Date(b.exp_date + 'T00:00:00'));
 
-    const headers = ['Product', 'SKU', 'Barcode', 'Invoice', 'Category', 'Unit', 'Price', 'GST', 'MFG Date', 'Exp Date', 'Stock', 'Status'];
+    const headers = ['Product', 'SKU', 'Barcode', 'Invoice', 'Supplier', 'Category', 'Unit', 'Price', 'GST', 'MFG Date', 'Exp Date', 'Stock', 'Status'];
     const rows = items.map(i => {
         const status = getExpiryStatus(i.exp_date).label;
-        return [i.name, i.sku, i.barcode, i.invoice, i.category, i.unit, i.price, i.gst, i.mfg_date, i.exp_date, i.stock, status];
+        const supplier = i.supplier || categorySupplierMap[i.category] || '';
+        return [i.name, i.sku, i.barcode, i.invoice, supplier, i.category, i.unit, i.price, i.gst, i.mfg_date, i.exp_date, i.stock, status];
     });
 
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
@@ -109,6 +136,8 @@ function downloadExpiryCSV() {
 document.addEventListener('DOMContentLoaded', async () => {
     if (!document.getElementById('expiry-data-body')) return;
 
+    await loadCategorySupplierMap();
+
     const cached = localStorage.getItem('inventoryData');
     if (cached) {
         expiryData = JSON.parse(cached);
@@ -120,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem('inventoryData', JSON.stringify(expiryData));
             renderExpiryTable();
         } catch {
-            document.getElementById('expiry-data-body').innerHTML = '<tr><td colspan="10" class="p-10 text-center text-red-500">Failed to load data.</td></tr>';
+            document.getElementById('expiry-data-body').innerHTML = '<tr><td colspan="11" class="p-10 text-center text-red-500">Failed to load data.</td></tr>';
         }
     }
 
